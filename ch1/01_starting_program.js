@@ -10,26 +10,18 @@ function statement(invoice, plays) {
     let volumeCredits = 0;
     
     let result = `Statement for ${invoice.customer}\n`
-
-    const format = new Intl.NumberFormat("en-US",
-                            {
-                                style: "currency", 
-                                currency: "USD",
-                                minimumFractionDigits: 2
-                            }).format;
     
     for(let perf of invoice.performances) {
 
-        // Change #1 - Use extract function for calculating volume credits
         volumeCredits += volumeCreditFor(perf);
 
         // Print line for this order
-        result += ` ${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience} seats)\n`;
+        result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience} seats)\n`;
 
         totalAmount += amountFor(perf);
     }
 
-    result += `Amount owed is ${format(totalAmount / 100)}\n`;
+    result += `Amount owed is ${usd(totalAmount)}\n`;
 
     result += `You earned ${volumeCredits} credits\n`;
 
@@ -71,8 +63,6 @@ function playFor(aPerformance) {
     return plays[aPerformance.playID];
 }
 
-// Change #1 - Use extract function for calculating volume credits
-// Change #2 - Rename parameter name from perf -> aPerformance, volumeCredits -> result
 function volumeCreditFor(aPerformance) {
     let result = 0;
 
@@ -83,6 +73,17 @@ function volumeCreditFor(aPerformance) {
     if("comedy" === playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5);
 
     return result;
+}
+
+// Change #1 - Extract function
+// Change #2 - Change function declaration; from format(aNumber) -> usd(aNumber)
+function usd(aNumber) {
+    return new Intl.NumberFormat("en-US",
+    {
+        style: "currency", 
+        currency: "USD",
+        minimumFractionDigits: 2
+    }).format(aNumber/100);
 }
 
 // Run the code

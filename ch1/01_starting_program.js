@@ -1,21 +1,17 @@
 'use strict';
 
-// Change #7 - Replace Loop with Pipeline
-const CreateStatementData =  require('./08_statement');
+const CreateStatementData =  require('./09_statement');
 
 const invoices = require('./invoices.json');
 
 function statement(invoice) {
-    // Change #7 - Replace Loop with Pipeline
     return renderPlainTest(CreateStatementData(invoice));    
 }
 
-// Change #1 - Split Phase
 function renderPlainTest(data) {
     let result = `Statement for ${data.customer}\n`
     
     for(let perf of data.performances) {
-        // Print line for this order
         result += ` ${perf.play.name}: ${usd(perf.amount)} (${perf.audience} seats)\n`;
     }
 

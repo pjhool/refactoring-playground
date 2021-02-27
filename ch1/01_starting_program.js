@@ -20,17 +20,10 @@ function statement(invoice, plays) {
     
     for(let perf of invoice.performances) {
 
-        // Change #2 - Use inline variable
-        // let thisAmount = amountFor(perf, playFor(perf));
-
-        // Add volume credits
-        volumeCredits += Math.max(perf.audience - 30, 0);
-
-        // Add extra credit for every ten comedy attendees
-        if("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
+        // Change #1 - Use extract function for calculating volume credits
+        volumeCredits += volumeCreditFor(perf);
 
         // Print line for this order
-        // Change #4 - Use another inline variable
         result += ` ${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience} seats)\n`;
 
         totalAmount += amountFor(perf);
@@ -46,7 +39,6 @@ function statement(invoice, plays) {
 function amountFor(aPerformance) {
     let result = 0;
 
-    // Change #3 - Apply change function declaration
     switch(playFor(aPerformance).type) {
         case "tragedy":
             result = 40000;
@@ -75,9 +67,22 @@ function amountFor(aPerformance) {
     return result;
 }
 
-// Change #1 - Extract it into a function
 function playFor(aPerformance) {
     return plays[aPerformance.playID];
+}
+
+// Change #1 - Use extract function for calculating volume credits
+// Change #2 - Rename parameter name from perf -> aPerformance, volumeCredits -> result
+function volumeCreditFor(aPerformance) {
+    let result = 0;
+
+    // Add volume credits
+    result += Math.max(aPerformance.audience - 30, 0);
+
+    // Add extra credit for every ten comedy attendees
+    if("comedy" === playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5);
+
+    return result;
 }
 
 // Run the code

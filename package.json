@@ -1,6 +1,6 @@
 {
   "name": "refactoring-playground",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Refactoring Playground",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/weisurya/refactoring-playground.git"
+    "url": "git+https://github.com/pjhool/refactoring-playground.git"
   },
   "keywords": [
     "refactoring",
@@ -21,9 +21,9 @@
   "author": "Soen Surya Soenaryo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/weisurya/refactoring-playground/issues"
+    "url": "https://github.com/pjhool/refactoring-playground/issues"
   },
-  "homepage": "https://github.com/weisurya/refactoring-playground#readme",
+  "homepage": "https://github.com/pjhool/refactoring-playground#readme",
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^6.1.4"

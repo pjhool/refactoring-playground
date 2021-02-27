@@ -20,21 +20,20 @@ function statement(invoice, plays) {
     
     for(let perf of invoice.performances) {
 
-        const play = plays[perf.playID];
-
-        // Change #1 - Extract Function
-        let thisAmount = amountFor(perf, play);
+        // Change #2 - Use inline variable
+        // let thisAmount = amountFor(perf, playFor(perf));
 
         // Add volume credits
         volumeCredits += Math.max(perf.audience - 30, 0);
 
         // Add extra credit for every ten comedy attendees
-        if("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 5);
+        if("comedy" === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5);
 
         // Print line for this order
-        result += ` ${play.name}: ${format(thisAmount/100)} (${perf.audience} seats)\n`;
+        // Change #4 - Use another inline variable
+        result += ` ${playFor(perf).name}: ${format(amountFor(perf)/100)} (${perf.audience} seats)\n`;
 
-        totalAmount += thisAmount;
+        totalAmount += amountFor(perf);
     }
 
     result += `Amount owed is ${format(totalAmount / 100)}\n`;
@@ -44,12 +43,11 @@ function statement(invoice, plays) {
     return result;
 }
 
-// Change #3 - Rename parameter
-function amountFor(aPerformance, play) {
-    // Change #2 - Rename variable
+function amountFor(aPerformance) {
     let result = 0;
 
-    switch(play.type) {
+    // Change #3 - Apply change function declaration
+    switch(playFor(aPerformance).type) {
         case "tragedy":
             result = 40000;
             
@@ -71,10 +69,15 @@ function amountFor(aPerformance, play) {
             break;
 
         default:
-            throw new Error(`Unknown type: ${play.type}`);
+            throw new Error(`Unknown type: ${playFor(aPerformance).type}`);
     }
 
     return result;
+}
+
+// Change #1 - Extract it into a function
+function playFor(aPerformance) {
+    return plays[aPerformance.playID];
 }
 
 // Run the code
